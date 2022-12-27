@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import "./login.css";
+import { Link } from "react-router-dom";
+import "./Login.css";
 import md5 from "md5";
 
 class Signin extends Component {
@@ -63,9 +64,9 @@ class Signin extends Component {
           </div>
           <input type="submit" value="SIGN IN" className="btn" />
         </form>
-        <a className="link" href="/signup">
+        <Link to="/signup" className="link">
           Sign Up
-        </a>
+        </Link>
       </div>
     );
   }
