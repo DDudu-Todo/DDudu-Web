@@ -1,9 +1,14 @@
-import React from "react";
-import "./App.css";
-import Login from "./component/login";
+import { Route, Routes } from "react-router-dom";
+import HomeTemplate from "./component/HomeTemplate";
+import LoginTemplate from "./component/LoginTemplate";
 
 function App() {
-  return <Login />;
+  return (
+    <Routes>
+      <Route path="/" element={<LoginTemplate />} />
+      <Route path="/home" element={<HomeTemplate />} />
+    </Routes>
+  );
 }
 
 export default App;
