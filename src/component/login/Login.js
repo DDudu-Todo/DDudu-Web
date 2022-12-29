@@ -9,7 +9,14 @@ class Signin extends Component {
     this.state = {
       username: "username",
       password: "password",
+      client_id: process.env.REACT_APP_REST_API_KEY,
+      redirect_uri: process.env.REACT_APP_REDIRECT_URI
     };
+  }
+
+  handleKakaoLogin = () => {
+    const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${this.state.client_id}&redirect_uri=${this.state.redirect_uri}`
+    window.location.href = KAKAO_AUTH_URI;
   }
 
   //form handling before submission
@@ -64,9 +71,15 @@ class Signin extends Component {
           </div>
           <input type="submit" value="SIGN IN" className="btn" />
         </form>
-        <Link to="/signup" className="link">
-          Sign Up
-        </Link>
+        <br />
+
+        <button className="btn" onClick={this.handleKakaoLogin}>SIGN IN with KAKAO</button>
+        <div className="SignUp">
+          <Link to="/signup" className="link">
+            Sign Up
+          </Link>
+        </div>
+
       </div>
     );
   }
