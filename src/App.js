@@ -11,10 +11,11 @@ import { useState } from 'react';
 function App() {
 
   return (
-    <ThemeProvider>
-      <ScrollToTop />
-      <Router />
-    </ThemeProvider>
+    <Routes>
+      <Route path="/" element={<LoginTemplate />} />
+      <Route path="/home" element={<HomeTemplate />} />
+      <Route path='/user/kakao/oauth' element={<OAuth />} />
+    </Routes>
   );
 }
 // function App() {
