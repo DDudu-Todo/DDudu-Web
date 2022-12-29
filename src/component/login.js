@@ -8,7 +8,14 @@ class Signin extends Component {
     this.state = {
       username: "username",
       password: "password",
+      client_id: "1540268f26cf9428dc8d5e06a18aa583",
+      redirect_uri: "http://localhost:3000/user/kakao/oauth"
     };
+  }
+
+  handleKakaoLogin = () => {
+    const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${this.state.client_id}&redirect_uri=${this.state.redirect_uri}`
+    window.location.href = KAKAO_AUTH_URI;
   }
 
   //form handling before submission
@@ -63,9 +70,13 @@ class Signin extends Component {
           </div>
           <input type="submit" value="SIGN IN" className="btn" />
         </form>
-        <a className="link" href="/signup">
-          Sign Up
-        </a>
+        <br />
+        <button className="btn" onClick={this.handleKakaoLogin}>SIGN IN with KAKAO</button>
+        <div className="SignUp">
+          <a className="link" href="/signup">
+            Sign Up
+          </a>
+        </div>
       </div>
     );
   }
