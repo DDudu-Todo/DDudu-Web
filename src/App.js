@@ -1,13 +1,18 @@
-import { Route, Routes } from "react-router-dom";
-import HomeTemplate from "./component/HomeTemplate";
-import LoginTemplate from "./component/LoginTemplate";
+// routes
+import Router from './routes';
+// theme
+import ThemeProvider from './theme';
+// components
+import ScrollToTop from './components/scroll-to-top';
+
+// ----------------------------------------------------------------------
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<LoginTemplate />} />
-      <Route path="/home" element={<HomeTemplate />} />
-    </Routes>
+    <ThemeProvider>
+      <ScrollToTop />
+      <Router />
+    </ThemeProvider>
   );
 }
 
