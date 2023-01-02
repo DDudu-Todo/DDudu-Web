@@ -1,0 +1,31 @@
+/* cancel/ok */
+.css-hlj6pa-MuiDialogActions-root {
+    display: none !important;
+}
+/* select date */
+.css-1eurbeq-MuiPickersToolbar-root-MuiDatePickerToolbar-root {
+    display: none !important;
+}
+/* padding */
+.css-17pmaar-MuiCardContent-root {
+    padding: 0 !important;
+}
+/* selected color */
+.css-4bvrx5-MuiButtonBase-root-MuiPickersDay-root.Mui-selected {
+    background-color: palevioletred !important;
+}
+/* 
+today's text color
+.css-k8kdam-MuiButtonBase-root-MuiPickersDay-root.Mui-selected {
+    background-color: orange !important;
+    color: white !important;
+}
+.css-k8kdam-MuiButtonBase-root-MuiPickersDay-root:not(.Mui-selected) {
+    background-color: orange !important;
+    color: white !important;
+}
+*/
+/* badge */
+.css-1f1oyj0-MuiBadge-badge {
+    color: lightpink;
+}
