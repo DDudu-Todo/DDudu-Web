@@ -41,7 +41,16 @@ const StyledContent = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function LoginPage() {
+
   const mdUp = useResponsive('up', 'md');
+
+  const client_id = process.env.REACT_APP_REST_API_KEY;
+  const redirect_uri = process.env.REACT_APP_REDIRECT_URI;
+
+  const handleKakaoLogin = () => {
+    const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${client_id}&redirect_uri=${redirect_uri}`
+    window.location.href = KAKAO_AUTH_URI;
+  }
 
   return (
     <>
@@ -79,17 +88,29 @@ export default function LoginPage() {
             </Typography>
 
             <Stack direction="row" spacing={2}>
+
+              <Button fullWidth size="large" color="inherit" variant="outlined" onClick={handleKakaoLogin}>
+                Login with Kakao
+              </Button>
+
+              {/* 카카오 로그인 버튼 */}
               <Button fullWidth size="large" color="inherit" variant="outlined">
                 <Iconify icon="eva:google-fill" color="#DF3E30" width={22} height={22} />
               </Button>
 
+              {/* 
+              
+              페이스북 로그인 버튼
               <Button fullWidth size="large" color="inherit" variant="outlined">
                 <Iconify icon="eva:facebook-fill" color="#1877F2" width={22} height={22} />
               </Button>
 
+              트위터 로그인 버튼
               <Button fullWidth size="large" color="inherit" variant="outlined">
                 <Iconify icon="eva:twitter-fill" color="#1C9CEA" width={22} height={22} />
               </Button>
+              
+              */}
             </Stack>
 
             <Divider sx={{ my: 3 }}>
