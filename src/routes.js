@@ -10,6 +10,7 @@ import LoginPage from './pages/LoginPage';
 import Page404 from './pages/Page404';
 import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
+import OAuth from './pages/OAuth';
 
 // ----------------------------------------------------------------------
 
@@ -42,6 +43,10 @@ export default function Router() {
       path: '*',
       element: <Navigate to="/404" replace />,
     },
+    {
+      path: '/user/kakao/oauth',
+      element: <OAuth />
+    }
   ]);
 
   return routes;
