@@ -12,12 +12,12 @@ const navConfig = [
     icon: icon('ic_blog'),
   },
   {
-    title: 'reward',
+    title: 'Account',
     path: '/dashboard/blog',
     icon: icon('ic_blog'),
   },
   {
-    title: 'friend',
+    title: 'About Us',
     path: '/dashboard/user',
     icon: icon('ic_user'),
   },
