@@ -9,7 +9,6 @@ import { useState } from 'react';
 // ----------------------------------------------------------------------
 
 function App() {
-
   return (
     <Routes>
       <Route path="/" element={<LoginTemplate />} />
