@@ -22,7 +22,6 @@ const EditTask = (props) => {
         };
 
         setItem(editItem);
-        console.log(item);
     }
 
     const onButtonClick = () => {

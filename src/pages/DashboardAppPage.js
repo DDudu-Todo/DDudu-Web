@@ -31,26 +31,36 @@ const DashboardAppPage = () => {
       });
   }, []);
 
-  /*
   const handleDelete = (item) => {
-    const itemList = this.state.items;
-    const newItemList = itemList.filter((e) => e.id !== item.id);
-    this.setState({
-      items: newItemList
+    const user_id = JSON.parse(window.localStorage.getItem('userInfo'))['id'];
+    axios({
+      url: `${baseURL}/todo/remove`,
+      method: 'delete',
+      data: {
+        task_id: item.id,
+        user_id: user_id
+      }
+    })
+      .then((res) => {
+        setItems(res.data);
+      })
+  }
+
+  const handleEdit = (item) => {
+    const user_id = JSON.parse(window.localStorage.getItem('userInfo'))['id'];
+    axios({
+      url: `${baseURL}/todo/modify`,
+      method: 'post',
+      data: {
+        user_id: user_id,
+        task_id: item.id,
+        contents: item.contents
+      }
+    })
+    .then((res) => {
+      setItems(res.data);
     })
   }
-  
-  const handleEdit = (item) => {
-    const itemList = this.state.items;
-    let newItemList = itemList.filter((e) => e.id !== item.id);
-    newItemList.push(item);
-    this.setState({
-      items: newItemList.sort(function (i1, i2) {
-        return i1.id - i2.id;
-      })
-    });
-  }
-  */
 
   const handleAdd = (item) => {
     const user_id = JSON.parse(window.localStorage.getItem('userInfo'))['id'];
@@ -98,8 +108,8 @@ const DashboardAppPage = () => {
             <AppTasks
               title=""
               list={items}
-            // onDelete={delete}
-            // onEdit={edit}
+              onDelete={handleDelete}
+              onEdit={handleEdit}
             />
           </Grid>
         </Grid>
