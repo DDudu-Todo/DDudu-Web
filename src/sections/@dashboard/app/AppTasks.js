@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import React, { useState } from 'react';
 // form
 import { useForm, Controller } from 'react-hook-form';
 // @mui
@@ -13,9 +13,13 @@ import {
   IconButton,
   CardHeader,
   FormControlLabel,
+  Modal,
+  Box,
 } from '@mui/material';
 // components
 import Iconify from '../../../components/iconify';
+
+import EditTask from './EditTask';
 
 // ----------------------------------------------------------------------
 
@@ -23,9 +27,10 @@ AppTasks.propTypes = {
   title: PropTypes.string,
   subheader: PropTypes.string,
   list: PropTypes.array.isRequired,
+  onDelete: PropTypes.func
 };
 
-export default function AppTasks({ title, subheader, list, ...other }) {
+export default function AppTasks({ title, subheader, list, onDelete, onEdit, ...other }) {
   const { control } = useForm({
     defaultValues: {
       taskCompleted: ['2'],
@@ -50,6 +55,8 @@ export default function AppTasks({ title, subheader, list, ...other }) {
                   task={task}
                   checked={field.value.includes(task.id)}
                   onChange={() => field.onChange(onSelected(task.id))}
+                  onDelete={onDelete}
+                  onEdit={onEdit}
                 />
               ))}
             </>
@@ -62,17 +69,42 @@ export default function AppTasks({ title, subheader, list, ...other }) {
 
 // ----------------------------------------------------------------------
 
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
 TaskItem.propTypes = {
   checked: PropTypes.bool,
   onChange: PropTypes.func,
   task: PropTypes.shape({
-    id: PropTypes.string,
-    label: PropTypes.string,
+    // todo 길이에 따라 id를 지정해주기 때문에 number로 변환
+    id: PropTypes.number,
+    contents: PropTypes.string,
   }),
+  onDelete: PropTypes.func
 };
 
-function TaskItem({ task, checked, onChange }) {
+function TaskItem({ task, checked, onChange, onDelete, onEdit }) {
   const [open, setOpen] = useState(null);
+
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  }
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  }
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
@@ -92,12 +124,8 @@ function TaskItem({ task, checked, onChange }) {
     console.log('SHARE', task.id);
   };
 
-  const handleEdit = () => {
-    handleCloseMenu();
-    console.log('EDIT', task.id);
-  };
-
   const handleDelete = () => {
+    onDelete(task);
     handleCloseMenu();
     console.log('DELETE', task.id);
   };
@@ -116,7 +144,7 @@ function TaskItem({ task, checked, onChange }) {
     >
       <FormControlLabel
         control={<Checkbox checked={checked} onChange={onChange} />}
-        label={task.label}
+        label={task.contents}
         sx={{ flexGrow: 1, m: 0 }}
       />
 
@@ -146,9 +174,19 @@ function TaskItem({ task, checked, onChange }) {
           Mark Complete
         </MenuItem>
 
-        <MenuItem onClick={handleEdit}>
+        <MenuItem onClickCapture={handleOpenModal}>
           <Iconify icon={'eva:edit-fill'} sx={{ mr: 2 }} />
           Edit
+          <Modal
+            open={openModal}
+            onClose={handleCloseModal}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <EditTask handleCloseModal={handleCloseModal} handleCloseMenu={handleCloseMenu} onEdit={onEdit} task={task} />
+            </Box>
+          </Modal>
         </MenuItem>
 
         <MenuItem onClick={handleShare}>

@@ -5,13 +5,67 @@ import { Grid, Container, Avatar, Stack } from '@mui/material';
 // sections
 import {
   AppTasks,
-  AppCalendar
+  AppCalendar,
 } from '../sections/@dashboard/app';
+
+import AddTasks from 'src/sections/@dashboard/app/AddTasks';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 // ----------------------------------------------------------------------
 
-export default function DashboardAppPage() {
-  // const theme = useTheme();
+const baseURL = process.env.REACT_APP_SERVER_IP;
+
+const DashboardAppPage = () => {
+  const [items, setItems] = useState([]);
+
+  // component mount될 때마다
+  useEffect(() => {
+    const user_id = JSON.parse(window.localStorage.getItem('userInfo'))['id'];
+    axios({
+      url: `${baseURL}/todo/${user_id}`,
+      method: 'get'
+    })
+      .then((res) => {
+        setItems(res.data);
+      });
+  }, []);
+
+  /*
+  const handleDelete = (item) => {
+    const itemList = this.state.items;
+    const newItemList = itemList.filter((e) => e.id !== item.id);
+    this.setState({
+      items: newItemList
+    })
+  }
+  
+  const handleEdit = (item) => {
+    const itemList = this.state.items;
+    let newItemList = itemList.filter((e) => e.id !== item.id);
+    newItemList.push(item);
+    this.setState({
+      items: newItemList.sort(function (i1, i2) {
+        return i1.id - i2.id;
+      })
+    });
+  }
+  */
+
+  const handleAdd = (item) => {
+    const user_id = JSON.parse(window.localStorage.getItem('userInfo'))['id'];
+    axios({
+      url: `${baseURL}/todo/add`,
+      method: 'post',
+      data: {
+        user_id: user_id,
+        contents: item.contents
+      }
+    })
+      .then((res) => {
+        setItems(res.data);
+      });
+  }
 
   return (
     <>
@@ -35,21 +89,17 @@ export default function DashboardAppPage() {
 
           {/* Calendar */}
           <Grid item xs={12} md={6} lg={4}>
-            <AppCalendar title="" />
+            <AppCalendar list={items} title="" />
           </Grid>
 
           {/* todo */}
           <Grid item xs={12} md={6} lg={8}>
+            <AddTasks add={handleAdd} />
             <AppTasks
               title=""
-              list={[
-                { id: '1', label: 'Attention 연습하기 🥰' },
-                { id: '2', label: 'Hype Boy 춤!! 🧞' },
-                { id: '3', label: 'Ditto 챙겨보기 📹' },
-                { id: '4', label: 'OMG 앨범 사기 😵' },
-                { id: '5', label: 'Cookie 먹기 🍪' },
-                { id: '6', label: 'Hurt 흥얼대기~ 💎' }
-              ]}
+              list={items}
+            // onDelete={delete}
+            // onEdit={edit}
             />
           </Grid>
         </Grid>
@@ -57,3 +107,5 @@ export default function DashboardAppPage() {
     </>
   );
 }
+
+export default DashboardAppPage;
