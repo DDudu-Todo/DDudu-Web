@@ -115,10 +115,10 @@ const DashboardAppPage = () => {
         {/* friend */}
         <Stack spacing={4} sx={{ mb: 5 }}>
           <Stack direction='row' spacing={2}>
-            <UserPopover />
-            <UserPopover />
-            <UserPopover />
-            <UserPopover />
+          <Avatar alt="민지" src="/assets/images/avatars/avatar_1.jpg" sx={{ width: 45, height: 45 }} />
+            <Avatar alt="하니" src="/assets/images/avatars/avatar_2.jpg" sx={{ width: 45, height: 45 }} />
+            <Avatar alt="다니엘" src="/assets/images/avatars/avatar_3.jpg" sx={{ width: 45, height: 45 }} />
+            <Avatar alt="혜인" src="/assets/images/avatars/avatar_4.jpg" sx={{ width: 45, height: 45 }} />
           </Stack>
         </Stack>
 
