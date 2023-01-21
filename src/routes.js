@@ -10,12 +10,8 @@ import LoginPage from './pages/LoginPage';
 import Page404 from './pages/Page404';
 import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
-<<<<<<< HEAD
 import OAuth from './pages/login/OAuth';
 import UserInfo from './pages/login/UserInfo';
-=======
-import OAuth from './pages/OAuth';
->>>>>>> 1fff721 (feat(api) : 카카오 로그인 중 JWT 받아서 로컬에 저장)
 
 // ----------------------------------------------------------------------
 
@@ -48,7 +44,6 @@ export default function Router() {
       path: '*',
       element: <Navigate to="/404" replace />,
     },
-<<<<<<< HEAD
     // 토큰 발급 uri
     {
       path: '/user/kakao/oauth',
@@ -58,11 +53,6 @@ export default function Router() {
     {
       path: '/user/kakao/info',
       element: <UserInfo />
-=======
-    {
-      path: '/user/kakao/oauth',
-      element: <OAuth />
->>>>>>> 1fff721 (feat(api) : 카카오 로그인 중 JWT 받아서 로컬에 저장)
     }
   ]);
 
