@@ -131,7 +131,6 @@ const DashboardAppPage = () => {
 
           {/* todo */}
           <Grid item xs={12} md={6} lg={8}>
-            <AddTasks add={handleAdd} />
             <AppTasks
               title=""
               list={items}
