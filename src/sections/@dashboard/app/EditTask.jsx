@@ -33,11 +33,13 @@ const EditTask = (props) => {
 
     return (
         <>
-            <h1>task 수정</h1>
+            <h2>할 일 수정</h2>
             <TextField name="contents"
                 onChange={onInputChange}
                 value={item.contents}
+                margin="normal"
                 fullWidth />
+            <br />
             <br />
             <Button onClick={onButtonClick}>완료</Button>
             <Button onClick={props.handleCloseModal}>취소</Button>

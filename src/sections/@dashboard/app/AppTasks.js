@@ -86,7 +86,6 @@ TaskItem.propTypes = {
   checked: PropTypes.bool,
   onChange: PropTypes.func,
   task: PropTypes.shape({
-    // todo 길이에 따라 id를 지정해주기 때문에 number로 변환
     id: PropTypes.number,
     contents: PropTypes.string,
   }),
@@ -144,7 +143,7 @@ function TaskItem({ task, checked, onChange, onDelete, onEdit }) {
     >
       <FormControlLabel
         control={<Checkbox checked={checked} onChange={onChange} />}
-        label={task.contents}
+        label={task.contents + " #" + task.hashtag}
         sx={{ flexGrow: 1, m: 0 }}
       />
 
