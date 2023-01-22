@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 // @mui
 // import { useTheme } from '@mui/material/styles';
-import { Grid, Container, Avatar, Stack, IconButton, Modal, Box } from '@mui/material';
+import { Grid, Container, Stack, IconButton, Modal, Box } from '@mui/material';
 import AddTaskIcon from '@mui/icons-material/AddTask';
 // sections
 import {
@@ -115,10 +115,10 @@ const DashboardAppPage = () => {
         {/* friend */}
         <Stack spacing={4} sx={{ mb: 5 }}>
           <Stack direction='row' spacing={2}>
-          <Avatar alt="민지" src="/assets/images/avatars/avatar_1.jpg" sx={{ width: 45, height: 45 }} />
-            <Avatar alt="하니" src="/assets/images/avatars/avatar_2.jpg" sx={{ width: 45, height: 45 }} />
-            <Avatar alt="다니엘" src="/assets/images/avatars/avatar_3.jpg" sx={{ width: 45, height: 45 }} />
-            <Avatar alt="혜인" src="/assets/images/avatars/avatar_4.jpg" sx={{ width: 45, height: 45 }} />
+            <UserPopover />
+            <UserPopover />
+            <UserPopover />
+            <UserPopover />
           </Stack>
         </Stack>
 
@@ -138,17 +138,17 @@ const DashboardAppPage = () => {
               onEdit={handleEdit}
             />
             <IconButton color="primary" aria-label="add task" onClick={handleOpenModal} size="large">
-              <AddTaskIcon />  
+              <AddTaskIcon />
             </IconButton>
             <Modal
-                open={openModal}
-                onClose={handleCloseModal}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description">
-                <Box sx={style}>
-                  <AddTasks handleCloseModal={handleCloseModal} onAdd={handleAdd} />
-                </Box>
-              </Modal>
+              open={openModal}
+              onClose={handleCloseModal}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description">
+              <Box sx={style}>
+                <AddTasks handleCloseModal={handleCloseModal} onAdd={handleAdd} />
+              </Box>
+            </Modal>
           </Grid>
         </Grid>
       </Container>
