@@ -52,7 +52,6 @@ const DashboardAppPage = () => {
     })
       .then((res) => {
         setItems(res.data);
-        console.log(res.data);
       });
   }, []);
 
@@ -101,6 +100,11 @@ const DashboardAppPage = () => {
     })
       .then((res) => {
         setItems(res.data);
+      })
+      .catch((err) => {
+        if (err['message'].replace("Request failed with status code ", "")) {
+          alert("요청에 문제가 생겼습니다.");
+        }
       });
   }
 
