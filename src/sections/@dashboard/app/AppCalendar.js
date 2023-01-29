@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // @mui
 import { Card, CardHeader, CardContent, TextField, Badge } from '@mui/material';
 // calendar
@@ -17,9 +17,14 @@ AppCalendar.propTypes = {
     list: PropTypes.array.isRequired,
 };
 
-function AppCalendar({ title, subheader, list, ...other }) {
+function AppCalendar({ title, subheader, list, getDate, ...other }) {
     const [value, setValue] = useState(new Date());
     const [highlightedDays, setHighlightDays] = useState([1, 2, 15]);
+
+    // value(date)가 변경될 때마다 getDate 호출
+    useEffect(() => {
+        getDate(value.toLocaleDateString());
+    }, [value, getDate]);
 
     return (
         <Card {...other}>

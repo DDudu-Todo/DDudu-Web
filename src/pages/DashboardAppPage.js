@@ -33,6 +33,8 @@ const baseURL = process.env.REACT_APP_SERVER_IP;
 const DashboardAppPage = () => {
   const [items, setItems] = useState([]);
 
+  const [date, setDate] = useState(new Date().toLocaleDateString());
+
   const [openModal, setOpenModal] = useState(false);
 
   const handleOpenModal = () => {
@@ -45,15 +47,19 @@ const DashboardAppPage = () => {
 
   // component mount될 때마다
   useEffect(() => {
+    getTodoList(date);
+  }, [date]);
+
+  const getTodoList = (date) => {
     const user_id = JSON.parse(window.localStorage.getItem('userInfo'))['user_id'];
     axios({
-      url: `${baseURL}/todo/${user_id}`,
+      url: `${baseURL}/todo/${date}/${user_id}`,
       method: 'get'
     })
       .then((res) => {
         setItems(res.data);
       });
-  }, []);
+  }
 
   const handleDelete = (item) => {
     const user_id = JSON.parse(window.localStorage.getItem('userInfo'))['user_id'];
@@ -95,7 +101,8 @@ const DashboardAppPage = () => {
         user_id: user_id,
         contents: item.contents,
         public_type: false,
-        hashtag: item.hashtag
+        hashtag: item.hashtag,
+        date: date
       }
     })
       .then((res) => {
@@ -122,7 +129,7 @@ const DashboardAppPage = () => {
       const result_id = res.data;
       setItems(items.map((item) => {
         if (item.id === result_id) {
-          item.done = !item.done;
+          item.undone = !item.undone;
         }
         return item;
       }))
@@ -132,6 +139,10 @@ const DashboardAppPage = () => {
         alert("요청에 문제가 생겼습니다.");
       }
     });
+  }
+
+  const getDate = (date) => {
+    setDate(date);
   }
 
   return (
@@ -156,7 +167,7 @@ const DashboardAppPage = () => {
 
           {/* Calendar */}
           <Grid item xs={12} md={6} lg={4}>
-            <AppCalendar list={items} title="" />
+            <AppCalendar list={items} title="" getDate={getDate} />
           </Grid>
 
           {/* todo */}

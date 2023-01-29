@@ -51,7 +51,7 @@ export default function AppTasks({ title, subheader, list, onDelete, onEdit, onC
                 <TaskItem
                   key={task.id}
                   task={task}
-                  checked={!task.done}
+                  checked={!task.undone}
                   onChange={() => onCheck(task.id)}
                   onDelete={onDelete}
                   onEdit={onEdit}
@@ -86,7 +86,7 @@ TaskItem.propTypes = {
   task: PropTypes.shape({
     id: PropTypes.number,
     contents: PropTypes.string,
-    done: PropTypes.bool
+    undone: PropTypes.bool
   }),
   onDelete: PropTypes.func
 };
