@@ -30,7 +30,7 @@ AppTasks.propTypes = {
   onDelete: PropTypes.func
 };
 
-export default function AppTasks({ title, subheader, list, onDelete, onEdit, ...other }) {
+export default function AppTasks({ title, subheader, list, onDelete, onEdit, onCheck, ...other }) {
   const { control } = useForm({
     defaultValues: {
       taskCompleted: ['2'],
@@ -43,9 +43,7 @@ export default function AppTasks({ title, subheader, list, onDelete, onEdit, ...
       <Controller
         name="taskCompleted"
         control={control}
-        render={({ field }) => {
-          const onSelected = (task) =>
-            field.value.includes(task) ? field.value.filter((value) => value !== task) : [...field.value, task];
+        render={() => {
 
           return (
             <>
@@ -53,8 +51,8 @@ export default function AppTasks({ title, subheader, list, onDelete, onEdit, ...
                 <TaskItem
                   key={task.id}
                   task={task}
-                  checked={field.value.includes(task.id)}
-                  onChange={() => field.onChange(onSelected(task.id))}
+                  checked={!task.done}
+                  onChange={() => onCheck(task.id)}
                   onDelete={onDelete}
                   onEdit={onEdit}
                 />
@@ -88,6 +86,7 @@ TaskItem.propTypes = {
   task: PropTypes.shape({
     id: PropTypes.number,
     contents: PropTypes.string,
+    done: PropTypes.bool
   }),
   onDelete: PropTypes.func
 };

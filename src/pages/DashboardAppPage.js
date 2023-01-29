@@ -108,6 +108,32 @@ const DashboardAppPage = () => {
       });
   }
 
+  const handleCheck = (item_id) => {
+    const user_id = JSON.parse(window.localStorage.getItem('userInfo'))['user_id'];
+    axios({
+      url: `${baseURL}/todo/change-status`,
+      method: 'post',
+      data: {
+        todo_id: item_id,
+        user_id: user_id
+      }
+    })
+    .then((res) => {
+      const result_id = res.data;
+      setItems(items.map((item) => {
+        if (item.id === result_id) {
+          item.done = !item.done;
+        }
+        return item;
+      }))
+    })
+    .catch((err) => {
+      if (err['message'].replace("Request failed with status code ", "")) {
+        alert("요청에 문제가 생겼습니다.");
+      }
+    });
+  }
+
   return (
     <>
       <Helmet>
@@ -140,6 +166,7 @@ const DashboardAppPage = () => {
               list={items}
               onDelete={handleDelete}
               onEdit={handleEdit}
+              onCheck={handleCheck}
             />
             <IconButton color="primary" aria-label="add task" onClick={handleOpenModal} size="large">
               <AddTaskIcon />
