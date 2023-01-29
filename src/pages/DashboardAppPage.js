@@ -45,7 +45,7 @@ const DashboardAppPage = () => {
     setOpenModal(false);
   }
 
-  // component mount될 때마다
+  // date 값 새로 받아올 때마다
   useEffect(() => {
     getTodoList(date);
   }, [date]);
@@ -68,7 +68,8 @@ const DashboardAppPage = () => {
       method: 'delete',
       data: {
         todo_id: item.id,
-        user_id: user_id
+        user_id: user_id,
+        date: date
       }
     })
       .then((res) => {
@@ -84,7 +85,8 @@ const DashboardAppPage = () => {
       data: {
         user_id: user_id,
         todo_id: item.id,
-        contents: item.contents
+        contents: item.contents,
+        date: date
       }
     })
       .then((res) => {
