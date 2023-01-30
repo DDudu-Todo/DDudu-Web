@@ -9,6 +9,7 @@ import Logo from '../components/logo';
 import Iconify from '../components/iconify';
 // sections
 import { LoginForm } from '../sections/auth/login';
+import { useNavigate } from 'react-router-dom';
 
 // ----------------------------------------------------------------------
 
@@ -47,9 +48,19 @@ export default function LoginPage() {
   const client_id = process.env.REACT_APP_REST_API_KEY;
   const redirect_uri = process.env.REACT_APP_REDIRECT_URI;
 
+  const navigate = useNavigate();
+
   const handleKakaoLogin = () => {
-    const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${client_id}&redirect_uri=${redirect_uri}`
-    window.location.href = KAKAO_AUTH_URI;
+    // 유효한 토큰이 있다면
+    if (localStorage.getItem('token')) {
+      console.log('이미 토큰 발급 완료 상태');
+      // 요청에 토큰을 담아 사용자 정보 요청
+      navigate('/user/kakao/info');
+    } else {
+      console.log('서버로부터 새 토큰 발급');
+      const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${client_id}&redirect_uri=${redirect_uri}`
+      window.location.href = KAKAO_AUTH_URI;
+    }
   }
 
   return (
@@ -89,11 +100,11 @@ export default function LoginPage() {
 
             <Stack direction="row" spacing={2}>
 
+              {/* 카카오 로그인 버튼 */}
               <Button fullWidth size="large" color="inherit" variant="outlined" onClick={handleKakaoLogin}>
                 Login with Kakao
               </Button>
 
-              {/* 카카오 로그인 버튼 */}
               <Button fullWidth size="large" color="inherit" variant="outlined">
                 <Iconify icon="eva:google-fill" color="#DF3E30" width={22} height={22} />
               </Button>

@@ -10,7 +10,8 @@ import LoginPage from './pages/LoginPage';
 import Page404 from './pages/Page404';
 import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
-import OAuth from './pages/OAuth';
+import OAuth from './pages/login/OAuth';
+import UserInfo from './pages/login/UserInfo';
 
 // ----------------------------------------------------------------------
 
@@ -34,7 +35,7 @@ export default function Router() {
     {
       element: <SimpleLayout />,
       children: [
-        { element: <Navigate to="/dashboard/app" />, index: true },
+        { element: <Navigate to="/login" />, index: true },
         { path: '404', element: <Page404 /> },
         { path: '*', element: <Navigate to="/404" /> },
       ],
@@ -43,9 +44,15 @@ export default function Router() {
       path: '*',
       element: <Navigate to="/404" replace />,
     },
+    // 토큰 발급 uri
     {
       path: '/user/kakao/oauth',
       element: <OAuth />
+    },
+    // 사용자 정보 요청 uri
+    {
+      path: '/user/kakao/info',
+      element: <UserInfo />
     }
   ]);
 
