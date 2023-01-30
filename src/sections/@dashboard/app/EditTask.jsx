@@ -26,7 +26,6 @@ const EditTask = (props) => {
 
     const onButtonClick = () => {
         props.onEdit(item);
-        console.log(item);
         props.handleCloseModal();
         props.handleCloseMenu();
     }
