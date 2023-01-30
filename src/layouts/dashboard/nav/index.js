@@ -1,11 +1,10 @@
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 // @mui
 import { styled, alpha } from '@mui/material/styles';
 import { Box, Link, Drawer, Typography, Avatar, Stack, Button } from '@mui/material';
-// mock
-import account from '../../../_mock/account';
 // hooks
 import useResponsive from '../../../hooks/useResponsive';
 // components
@@ -39,10 +38,30 @@ export default function Nav({ openNav, onCloseNav }) {
 
   const isDesktop = useResponsive('up', 'lg');
 
+  const base_url = process.env.REACT_APP_SERVER_IP;
+
+  const [displayName, setDisplayName] = useState();
+  const [email, setEmail] = useState();
+  const [photoURL, setPhotoURL] = useState();
+
+  async function getUser() {
+    await axios.get(`${base_url}/dashboard/app`)
+    .then((res) => {
+      var data = res.data.data;
+      setDisplayName(data[0].nickname);
+      setEmail(data[0].email);
+      setPhotoURL(data[0].image_url);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }
+
   useEffect(() => {
     if (openNav) {
       onCloseNav();
     }
+    getUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
@@ -60,15 +79,15 @@ export default function Nav({ openNav, onCloseNav }) {
       <Box sx={{ mb: 5, mx: 2.5 }}>
         <Link underline="none">
           <StyledAccount>
-            <Avatar src={account.photoURL} alt="photoURL" />
+            <Avatar src={photoURL} alt="photoURL" />
 
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {account.displayName}
+                {displayName}
               </Typography>
 
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {account.email}
+                {email}
               </Typography>
             </Box>
           </StyledAccount>

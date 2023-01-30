@@ -1,4 +1,6 @@
 import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 // @mui
 import { styled } from '@mui/material/styles';
 import { Box, Stack, AppBar, Toolbar, IconButton, Avatar } from '@mui/material';
@@ -8,7 +10,6 @@ import { bgBlur } from '../../../utils/cssStyles';
 import Iconify from '../../../components/iconify';
 //
 import Searchbar from './Searchbar';
-import account from '../../../_mock/account';
 import NotificationsPopover from './NotificationsPopover';
 
 // ----------------------------------------------------------------------
@@ -42,6 +43,28 @@ Header.propTypes = {
 };
 
 export default function Header({ onOpenNav }) {
+
+  const base_url = process.env.REACT_APP_SERVER_IP;
+
+  const [displayName, setDisplayName] = useState();
+  const [photoURL, setPhotoURL] = useState();
+
+  async function getUser() {
+    await axios.get(`${base_url}/dashboard/app`)
+    .then((res) => {
+      var data = res.data.data;
+      setDisplayName(data[0].nickname);
+      setPhotoURL(data[0].image_url);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
   return (
     <StyledRoot>
       <StyledToolbar>
@@ -68,7 +91,7 @@ export default function Header({ onOpenNav }) {
           }}
         >
           <NotificationsPopover />
-          <Avatar alt={account.displayName} src={account.photoURL} />
+          <Avatar alt={displayName} src={photoURL} />
         </Stack>
       </StyledToolbar>
     </StyledRoot>
