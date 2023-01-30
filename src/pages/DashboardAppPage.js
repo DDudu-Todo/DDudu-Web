@@ -33,6 +33,8 @@ const baseURL = process.env.REACT_APP_SERVER_IP;
 const DashboardAppPage = () => {
   const [items, setItems] = useState([]);
 
+  const [date, setDate] = useState(new Date().toLocaleDateString());
+
   const [openModal, setOpenModal] = useState(false);
 
   const handleOpenModal = () => {
@@ -43,18 +45,21 @@ const DashboardAppPage = () => {
     setOpenModal(false);
   }
 
-  // component mount될 때마다
+  // date 값 새로 받아올 때마다
   useEffect(() => {
+    getTodoList(date);
+  }, [date]);
+
+  const getTodoList = (date) => {
     const user_id = JSON.parse(window.localStorage.getItem('userInfo'))['user_id'];
     axios({
-      url: `${baseURL}/todo/${user_id}`,
+      url: `${baseURL}/todo/${date}/${user_id}`,
       method: 'get'
     })
       .then((res) => {
         setItems(res.data);
-        console.log(res.data);
       });
-  }, []);
+  }
 
   const handleDelete = (item) => {
     const user_id = JSON.parse(window.localStorage.getItem('userInfo'))['user_id'];
@@ -63,7 +68,8 @@ const DashboardAppPage = () => {
       method: 'delete',
       data: {
         todo_id: item.id,
-        user_id: user_id
+        user_id: user_id,
+        date: date
       }
     })
       .then((res) => {
@@ -79,7 +85,8 @@ const DashboardAppPage = () => {
       data: {
         user_id: user_id,
         todo_id: item.id,
-        contents: item.contents
+        contents: item.contents,
+        date: date
       }
     })
       .then((res) => {
@@ -96,12 +103,48 @@ const DashboardAppPage = () => {
         user_id: user_id,
         contents: item.contents,
         public_type: false,
-        hashtag: item.hashtag
+        hashtag: item.hashtag,
+        date: date
       }
     })
       .then((res) => {
         setItems(res.data);
+      })
+      .catch((err) => {
+        if (err['message'].replace("Request failed with status code ", "")) {
+          alert("요청에 문제가 생겼습니다.");
+        }
       });
+  }
+
+  const handleCheck = (item_id) => {
+    const user_id = JSON.parse(window.localStorage.getItem('userInfo'))['user_id'];
+    axios({
+      url: `${baseURL}/todo/change-status`,
+      method: 'post',
+      data: {
+        todo_id: item_id,
+        user_id: user_id
+      }
+    })
+    .then((res) => {
+      const result_id = res.data;
+      setItems(items.map((item) => {
+        if (item.id === result_id) {
+          item.undone = !item.undone;
+        }
+        return item;
+      }))
+    })
+    .catch((err) => {
+      if (err['message'].replace("Request failed with status code ", "")) {
+        alert("요청에 문제가 생겼습니다.");
+      }
+    });
+  }
+
+  const getDate = (date) => {
+    setDate(date);
   }
 
   return (
@@ -126,7 +169,7 @@ const DashboardAppPage = () => {
 
           {/* Calendar */}
           <Grid item xs={12} md={6} lg={4}>
-            <AppCalendar list={items} title="" />
+            <AppCalendar list={items} title="" getDate={getDate} />
           </Grid>
 
           {/* todo */}
@@ -136,6 +179,7 @@ const DashboardAppPage = () => {
               list={items}
               onDelete={handleDelete}
               onEdit={handleEdit}
+              onCheck={handleCheck}
             />
             <IconButton color="primary" aria-label="add task" onClick={handleOpenModal} size="large">
               <AddTaskIcon />
