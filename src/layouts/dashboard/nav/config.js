@@ -1,31 +1,44 @@
 // component
-import SvgColor from '../../../components/svg-color';
+import SvgColor from "../../../components/svg-color";
+
+import * as React from "react";
 
 // ----------------------------------------------------------------------
 
-const icon = (name) => <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ width: 1, height: 1 }} />;
+const icon = (name) => (
+  <SvgColor
+    src={`/assets/icons/navbar/${name}.svg`}
+    sx={{ width: 1, height: 1 }}
+  />
+);
 
 const navConfig = [
   {
-    title: 'Home',
-    path: '/dashboard/app',
-    icon: icon('ic_blog'),
+    title: "Home",
+    path: "/dashboard/app",
+    icon: icon("ic_blog"),
   },
   {
-    title: 'reward',
-    path: '/dashboard/blog',
-    icon: icon('ic_blog'),
+    title: "reward",
+    path: "/dashboard/blog",
+    icon: icon("ic_blog"),
   },
   {
-    title: 'friend',
-    path: '/dashboard/user',
-    icon: icon('ic_user'),
+    title: "friend",
+    path: "/dashboard/user",
+    icon: icon("ic_user"),
   },
   {
-    title: 'setting',
-    path: '/dashboard/products',
-    icon: icon('ic_cart'),
+    title: "setting",
+    path: "/dashboard/products",
+    icon: icon("ic_cart"),
   },
+  {
+    title: "MyInfo",
+    path: "/dashboard/myinfo",
+    icon: icon("ic_lock"),
+  },
+
   /*
   {
     title: 'login',
