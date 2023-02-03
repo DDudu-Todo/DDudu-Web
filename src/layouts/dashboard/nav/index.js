@@ -80,27 +80,26 @@ export default function Nav({ openNav, onCloseNav }) {
       </Box>
 
       {/* 이 부분 수정 - 팔로우/팔로우 목록 출력...! */}
-      <Box sx={{ mb: 5, mx: 2.5 }}>
-        <Link underline="none">
-          <StyledAccount>
-            {/* <Avatar src={account.photoURL} alt="photoURL" /> */}
-            <Box sx={{ ml: 2 }}>
-              <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
-                Follow
-                {account.count}
-              </Typography>
-              <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
-                Following
-                {account.count}
-              </Typography>
+      {/* <Box sx={{ mb: 5, mx: 2.5 }}> */}
+      <Link underline="none">
+        <StyledAccount>
+          <Box sx={{ ml: 2 }}>
+            <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
+              Follow
+              {account.count}
+            </Typography>
+            <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
+              Following
+              {account.count}
+            </Typography>
 
-              {/* <Typography variant="body2" sx={{ color: "text.secondary" }}>
+            {/* <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 {account.email}
               </Typography> */}
-            </Box>
-          </StyledAccount>
-        </Link>
-      </Box>
+          </Box>
+        </StyledAccount>
+      </Link>
+      {/* </Box> */}
       {/* 이 부분 수정 */}
 
       <NavSection data={navConfig} />
