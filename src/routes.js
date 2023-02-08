@@ -12,6 +12,7 @@ import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
 import OAuth from './pages/login/OAuth';
 import UserInfo from './pages/login/UserInfo';
+import Logout from './pages/Logout';
 
 // ----------------------------------------------------------------------
 
@@ -53,6 +54,10 @@ export default function Router() {
     {
       path: '/user/kakao/info',
       element: <UserInfo />
+    },
+    {
+      path: '/user/kakao/logout',
+      element: <Logout />
     }
   ]);
 

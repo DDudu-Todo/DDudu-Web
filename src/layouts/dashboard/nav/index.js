@@ -94,7 +94,7 @@ export default function Nav({ openNav, onCloseNav }) {
       {/* logout */}
       <Box sx={{ px: 2.5, pb: 3, mt: 10 }}>
         <Stack alignItems="center" spacing={3} sx={{ pt: 5, borderRadius: 2, position: 'relative' }}>
-          <Button href="/login" sx={{ width: 1 }}>
+          <Button href="/user/kakao/logout" sx={{ width: 1 }}>
             Logout
           </Button>
         </Stack>
