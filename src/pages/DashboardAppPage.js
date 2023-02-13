@@ -14,6 +14,8 @@ import UserPopover from './UserPopover';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import AddTasks from 'src/sections/@dashboard/app/AddTasks';
+import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
 
 // ----------------------------------------------------------------------
 
@@ -37,6 +39,10 @@ const DashboardAppPage = () => {
 
   const [openModal, setOpenModal] = useState(false);
 
+  const [cookies, setCookie, removeCookie] = useCookies(['userInfo', 'token']);
+
+  const navigate = useNavigate();
+
   const handleOpenModal = () => {
     setOpenModal(true);
   }
@@ -45,13 +51,27 @@ const DashboardAppPage = () => {
     setOpenModal(false);
   }
 
+  useEffect(() => {
+    if (cookies.token === undefined) {
+      alert('다시 로그인 해주세요.');
+      navigate('/login');
+      removeCookie('userInfo', {
+        path: '/'
+      });
+      removeCookie('token', {
+        path: '/'
+      });
+    }
+  });
+
   // date 값 새로 받아올 때마다
   useEffect(() => {
     getTodoList(date);
   }, [date]);
 
   const getTodoList = (date) => {
-    const user_id = JSON.parse(window.localStorage.getItem('userInfo'))['user_id'];
+    console.log(cookies.userInfo);
+    const user_id = cookies.userInfo['user_id'];
     axios({
       url: `${baseURL}/todo/${date}/${user_id}`,
       method: 'get'
@@ -62,7 +82,7 @@ const DashboardAppPage = () => {
   }
 
   const handleDelete = (item) => {
-    const user_id = JSON.parse(window.localStorage.getItem('userInfo'))['user_id'];
+    const user_id = cookies.userInfo['user_id'];
     axios({
       url: `${baseURL}/todo/remove`,
       method: 'delete',
@@ -78,7 +98,7 @@ const DashboardAppPage = () => {
   }
 
   const handleEdit = (item) => {
-    const user_id = JSON.parse(window.localStorage.getItem('userInfo'))['user_id'];
+    const user_id = cookies.userInfo['user_id'];
     axios({
       url: `${baseURL}/todo/modify`,
       method: 'post',
@@ -95,7 +115,7 @@ const DashboardAppPage = () => {
   }
 
   const handleAdd = (item) => {
-    const user_id = JSON.parse(window.localStorage.getItem('userInfo'))['user_id'];
+    const user_id = cookies.userInfo['user_id'];
     axios({
       url: `${baseURL}/todo/add`,
       method: 'post',
@@ -118,7 +138,7 @@ const DashboardAppPage = () => {
   }
 
   const handleCheck = (item_id) => {
-    const user_id = JSON.parse(window.localStorage.getItem('userInfo'))['user_id'];
+    const user_id = cookies.userInfo['user_id'];
     axios({
       url: `${baseURL}/todo/change-status`,
       method: 'post',
